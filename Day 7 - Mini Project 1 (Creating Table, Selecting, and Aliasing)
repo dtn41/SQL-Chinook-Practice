@@ -1,0 +1,24 @@
+-- Step 1: Create a table called pixar_films. --
+CREATE table pixar_films (
+    film_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    film_title TEXT NOT NULL, -- No null value constraint. --
+    release_year INTEGER NOT NULL CHECK (release_year >= 1995), -- Checks if the release_year is >=1995 --
+    director TEXT,
+    tomatoes_score INTEGER CHECK (tomatoes_score BETWEEN 0 AND 100) -- Ensures tomatoes score is between 0 and 100. --
+);
+
+-- Step 2: Insert data into table. --
+INSERT INTO pixar_films (film_title, release_year, director, tomatoes_score) -- Choosing what we're inserting and where.
+VALUES ("Toy Story", 1995, "John Lasseter", 100),
+       ("Finding Nemo", 2003, "Andrew Stanton", 99),
+       ("Inside Out", 2015, "Pete Docter", 98);
+
+-- Step 3: Selecting all rows/cols of our data. --
+SELECT * from pixar_films;
+
+-- Step 4: Selecting unique release years. --
+SELECT DISTINCT release_year from pixar_films;
+
+-- Step 5: Renaming several columns. --
+SELECT film_title AS "Title", release_year AS "Year"
+from pixar_films;

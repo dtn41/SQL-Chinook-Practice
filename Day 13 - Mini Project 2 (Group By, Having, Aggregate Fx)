@@ -1,0 +1,37 @@
+-- Finding most popular genre, finding which albums w/in that genre has the most tracks, and filter tracks <= 180,000ms. --
+
+-- Looking at data first. -- 
+SELECT *
+FROM tracks
+LIMIT 5;
+
+-- Finding most popular genre. --
+SELECT GenreID, COUNT(*) as Genre_Count -- Selecting the GenreID column and counting instances of their occurences, returning those occurences as an aliased column. --
+FROM tracks
+GROUP BY GenreId
+ORDER BY COUNT(*) DESC; -- 1, 7, 3 are the top 3. --
+
+-- Identifying the genre names. --
+SELECT Name, GenreId
+FROM genres
+WHERE GenreId IN (1,7,3); -- 1 is Rock, 7 is Latin, 3 is Metal. --
+
+-- Looking at the albums table now. --
+SELECT *
+FROM tracks
+LIMIT 5;
+
+-- Finding albums with the most tracks w/in those genres. --
+SELECT AlbumId, Count (*) as TrackCount,
+       GenreID
+FROM tracks
+WHERE GenreID IN (1,7,3)
+GROUP BY AlbumId
+ORDER BY TrackCount DESC; -- Albums 141, 23, and 24 are largest. -- 
+
+-- Filtering tracks from these albums (141, 23, and 24) that are over 180,000ms (3 mins) --
+SELECT AlbumId, Name, TrackID, Milliseconds
+FROM tracks
+WHERE AlbumId IN (141,23, 24)
+GROUP BY TrackID
+HAVING Milliseconds > 180000;
